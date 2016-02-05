@@ -13,11 +13,11 @@ script:
   - mvn package
 
 before_deploy:
-  - cp ./modules/swagger-codegen-cli/target/swagger-codegen-cli.jar .
+  - cp ./modules/swagger-codegen-cli/target/*.jar .
 addons:
   artifacts:
     paths:
-      - $(ls ./swagger-codegen-cli.jar | tr "\n" ":")
+      - $(ls *.jar | tr "\n" ":")
 
 cache:
   directories:
