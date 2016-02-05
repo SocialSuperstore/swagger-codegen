@@ -11,3 +11,12 @@ install:
 
 script:
   - mvn package
+
+addons:
+  artifacts:
+    paths:
+      - $(ls ./modules/swagger-codegen-cli/target/*.jar | tr "\n" ":")
+
+cache:
+  directories:
+    - $HOME/.m2
