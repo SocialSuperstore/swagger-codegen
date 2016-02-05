@@ -21,7 +21,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
 {{>libraries/okhttp-gson/enumClass}}{{/items}}{{/items.isEnum}}
   @SerializedName("{{baseName}}")
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};
+  protected {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};
   {{/vars}}
 
   {{#vars}}
