@@ -29,8 +29,7 @@ public class {{classname}}: Mappable {
     / MARK: Mapping
     func mapping(map: Map) {
 
-      {{#vars}}
-      {name}} <- map("{name}}")
+      {{#vars}}{{name}} <- map("{{name}}")
       {{/vars}}
 
     }
