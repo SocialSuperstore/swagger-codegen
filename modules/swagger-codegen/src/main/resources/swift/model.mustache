@@ -22,14 +22,14 @@ public class {{classname}}: Mappable {
     {{/description}}public var {{name}}: {{{datatype}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}
     {{/vars}}
 
-    required init?(_ map: Map) {
+    required public init?(_ map: Map) {
 
     }
 
-    / MARK: Mapping
-    func mapping(map: Map) {
+    // MARK: Mapping
+    public func mapping(map: Map) {
 
-      {{#vars}}{{name}} <- map("{{name}}")
+      {{#vars}}{{name}} <- map["{{name}}"]
       {{/vars}}
 
     }
