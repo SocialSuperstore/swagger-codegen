@@ -68,6 +68,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public JavaClientCodegen() {
         super();
+        supportsInheritance = true;
         outputFolder = "generated-code" + File.separator + "java";
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
@@ -501,6 +502,9 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
         String type = null;
+        if (swaggerType == "UUID") {
+            return "String";
+        }
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
             if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0) {
