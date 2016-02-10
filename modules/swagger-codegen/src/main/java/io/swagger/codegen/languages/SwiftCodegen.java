@@ -272,6 +272,17 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         codegenProperty.datatypeWithEnum = escapeReservedWord(codegenProperty.datatypeWithEnum);
       }
     }
+
+    codegenProperty.setter = "|";
+
+    if (codegenProperty.items != null) {
+      codegenProperty.setter += "|";
+    }
+
+    if (codegenProperty.required == null) {
+      codegenProperty.setter += "?";
+    }
+
     return codegenProperty;
   }
 
@@ -291,6 +302,34 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     if(name.length() == 0)
       return "DefaultAPI";
     return initialCaps(name) + "API";
+  }
+
+
+
+  @Override
+  public String toVarName(String name) {
+    // sanitize name
+    name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+    if("_".equals(name)) {
+      name = "_u";
+    }
+
+    // if it's all uppper case, do nothing
+    if (name.matches("^[A-Z_]*$")) {
+      return name;
+    }
+
+    // camelize (lower first character) the variable name
+    // pet_id => petId
+    name = camelize(name, true);
+
+    // for reserved word or word starting with number, append _
+    if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+      name = escapeReservedWord(name);
+    }
+
+    return name;
   }
 
   @Override

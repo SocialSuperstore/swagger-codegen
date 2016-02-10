@@ -6,33 +6,65 @@
 //
 
 import Foundation
-import ObjectMapper
+//import ObjectMapper
+import Argo
+import Ogra
+import Curry
 
 {{#description}}
 
 /** {{description}} */{{/description}}
-public class {{classname}}: Mappable {
+//public class {{classname}} { : Mappable {
+public struct {{classname}} {
 {{#vars}}{{#isEnum}}
     public enum {{datatypeWithEnum}}: String { {{#allowableValues}}{{#values}}
         case {{enum}} = "{{raw}}"{{/values}}{{/allowableValues}}
     }
     {{/isEnum}}{{/vars}}
     {{#vars}}{{#isEnum}}{{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatypeWithEnum}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}{{^isEnum}}{{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatype}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}
+    {{/description}}public let {{name}}: {{{datatypeWithEnum}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}{{^isEnum}}{{#description}}/** {{description}} */
+    {{/description}}public let {{name}}: {{{datatype}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{#required}}!{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/isEnum}}
     {{/vars}}
 
-    required public init?(_ map: Map) {
+    //required public init?(_ map: Map) {
 
-    }
+    //}
 
     // MARK: Mapping
-    public func mapping(map: Map) {
+//    public func mapping(map: Map) {
 
-      {{#vars}}{{name}} <- map["{{name}}"]
-      {{/vars}}
+//      {{#vars}}{{name}} <- map["{{name}}"]
+//      {{/vars}}
 
+//    }
+
+}
+
+
+extension {{classname}}: Decodable {
+
+    public static func decode(json: JSON) -> Decoded<{{classname}}> {
+        let f =  curry({{classname}}.init)
+        return f
+
+            <^> json{{#vars}} <{{setter}} "{{baseName}}"
+            {{#hasMore}}<*> json {{/hasMore}}{{/vars}}
     }
 
-}{{/model}}
+}
+
+extension {{classname}}: Encodable {
+
+    public func encode() -> JSON {
+        return JSON.Object([
+{{#vars}}{{^isReadOnly}}
+            "{{baseName}}" : self.{{name}}.encode(){{#hasMore}}, {{/hasMore}}
+{{/isReadOnly}}
+{{/vars}}
+        ])
+    }
+
+}
+
+{{/model}}
 {{/models}}
