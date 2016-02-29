@@ -303,7 +303,7 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private boolean usesAnyRetrofitLibrary() {
-        return getLibrary() != null && getLibrary().contains(RETROFIT_1);
+        return getLibrary() != null && (getLibrary().contains(RETROFIT_1) || usesRetrofit2Library());
     }
 
     private boolean usesRetrofit2Library() {
@@ -637,6 +637,28 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         return objs;
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
+        CodegenOperation co = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+
+
+        List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
+
+        for (Iterator<CodegenParameter> it = co.allParams.iterator(); it.hasNext(); ) {
+            CodegenParameter parameter = it.next();
+            if (parameter.isHeaderParam != null) {
+                it.remove();
+            } else {
+                allParams.add(parameter);
+            }
+        }
+
+        co.allParams = Arrays.asList(allParams.toArray(new CodegenParameter[allParams.size()]));
+        co.headerParams = new ArrayList<CodegenParameter>();
+
+        return co;
     }
 
     @Override
