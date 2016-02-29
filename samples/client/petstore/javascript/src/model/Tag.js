@@ -14,37 +14,30 @@
   }
 }(this, function(module, ApiClient) {
   'use strict';
-
   
-  
-
   
   var Tag = function Tag() { 
     
-    /**
-     * datatype: Integer
-     **/
-    this['id'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['name'] = null;
-    
   };
 
-  Tag.prototype.constructFromObject = function(data) {
+  Tag.constructFromObject = function(data) {
     if (!data) {
-      return this;
+      return null;
+    }
+    var _this = new Tag();
+    
+    if (data['id']) {
+      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     }
     
-    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    if (data['name']) {
+      _this['name'] = ApiClient.convertToType(data['name'], 'String');
+    }
     
-    this['name'] = ApiClient.convertToType(data['name'], 'String');
-    
-    return this;
+    return _this;
   }
 
+  
   
   /**
    * @return {Integer}
@@ -74,10 +67,13 @@
     this['name'] = name;
   }
   
+  
 
   Tag.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  
 
   if (module) {
     module.Tag = Tag;

@@ -14,94 +14,46 @@
   }
 }(this, function(module, ApiClient) {
   'use strict';
-
   
-  
-//export module
-if ( typeof define === "function" && define.amd ) {
-	define('StatusEnum', [], function() {
-        return StatusEnum;
-	 });
-}
-
-var StatusEnum = function StatusEnum() {
-	var self = this;
-
-
-	/**
-	 * @const
-	 */
-	self.PLACED = "placed",
-	
-	/**
-	 * @const
-	 */
-	self.APPROVED = "approved",
-	
-	/**
-	 * @const
-	 */
-	self.DELIVERED = "delivered";
-
-}
-
-
   
   var Order = function Order() { 
     
-    /**
-     * datatype: Integer
-     **/
-    this['id'] = null;
-    
-    /**
-     * datatype: Integer
-     **/
-    this['petId'] = null;
-    
-    /**
-     * datatype: Integer
-     **/
-    this['quantity'] = null;
-    
-    /**
-     * datatype: Date
-     **/
-    this['shipDate'] = null;
-    
-    /**
-     * Order Status
-     * datatype: StatusEnum
-     **/
-    this['status'] = null;
-    
-    /**
-     * datatype: Boolean
-     **/
-    this['complete'] = null;
-    
   };
 
-  Order.prototype.constructFromObject = function(data) {
+  Order.constructFromObject = function(data) {
     if (!data) {
-      return this;
+      return null;
+    }
+    var _this = new Order();
+    
+    if (data['id']) {
+      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     }
     
-    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    if (data['petId']) {
+      _this['petId'] = ApiClient.convertToType(data['petId'], 'Integer');
+    }
     
-    this['petId'] = ApiClient.convertToType(data['petId'], 'Integer');
+    if (data['quantity']) {
+      _this['quantity'] = ApiClient.convertToType(data['quantity'], 'Integer');
+    }
     
-    this['quantity'] = ApiClient.convertToType(data['quantity'], 'Integer');
+    if (data['shipDate']) {
+      _this['shipDate'] = ApiClient.convertToType(data['shipDate'], 'Date');
+    }
     
-    this['shipDate'] = ApiClient.convertToType(data['shipDate'], 'Date');
+    if (data['status']) {
+      _this['status'] = ApiClient.convertToType(data['status'], 'String');
+    }
     
-    this['status'] = ApiClient.convertToType(data['status'], 'String');
+    if (data['complete']) {
+      _this['complete'] = ApiClient.convertToType(data['complete'], 'Boolean');
+    }
     
-    this['complete'] = ApiClient.convertToType(data['complete'], 'Boolean');
-    
-    return this;
+    return _this;
   }
 
+  
   
   /**
    * @return {Integer}
@@ -189,10 +141,32 @@ var StatusEnum = function StatusEnum() {
     this['complete'] = complete;
   }
   
+  
 
   Order.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  var StatusEnum = {
+
+	  /**
+	   * @const
+	   */
+	  PLACED: "placed",
+	  
+	  /**
+	   * @const
+	   */
+	  APPROVED: "approved",
+	  
+	  /**
+	   * @const
+	   */
+	  DELIVERED: "delivered"
+  };
+
+  Order.StatusEnum = StatusEnum;
+
 
   if (module) {
     module.Order = Order;

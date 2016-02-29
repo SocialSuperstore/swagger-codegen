@@ -14,37 +14,30 @@
   }
 }(this, function(module, ApiClient) {
   'use strict';
-
   
-  
-
   
   var Category = function Category() { 
     
-    /**
-     * datatype: Integer
-     **/
-    this['id'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['name'] = null;
-    
   };
 
-  Category.prototype.constructFromObject = function(data) {
+  Category.constructFromObject = function(data) {
     if (!data) {
-      return this;
+      return null;
+    }
+    var _this = new Category();
+    
+    if (data['id']) {
+      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     }
     
-    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    if (data['name']) {
+      _this['name'] = ApiClient.convertToType(data['name'], 'String');
+    }
     
-    this['name'] = ApiClient.convertToType(data['name'], 'String');
-    
-    return this;
+    return _this;
   }
 
+  
   
   /**
    * @return {Integer}
@@ -74,10 +67,13 @@
     this['name'] = name;
   }
   
+  
 
   Category.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  
 
   if (module) {
     module.Category = Category;

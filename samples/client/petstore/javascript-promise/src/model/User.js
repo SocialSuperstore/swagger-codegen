@@ -14,80 +14,54 @@
   }
 }(this, function(module, ApiClient) {
   'use strict';
-
   
-  
-
   
   var User = function User() { 
     
-    /**
-     * datatype: Integer
-     **/
-    this['id'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['username'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['firstName'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['lastName'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['email'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['password'] = null;
-    
-    /**
-     * datatype: String
-     **/
-    this['phone'] = null;
-    
-    /**
-     * User Status
-     * datatype: Integer
-     **/
-    this['userStatus'] = null;
-    
   };
 
-  User.prototype.constructFromObject = function(data) {
+  User.constructFromObject = function(data) {
     if (!data) {
-      return this;
+      return null;
+    }
+    var _this = new User();
+    
+    if (data['id']) {
+      _this['id'] = ApiClient.convertToType(data['id'], 'Integer');
     }
     
-    this['id'] = ApiClient.convertToType(data['id'], 'Integer');
+    if (data['username']) {
+      _this['username'] = ApiClient.convertToType(data['username'], 'String');
+    }
     
-    this['username'] = ApiClient.convertToType(data['username'], 'String');
+    if (data['firstName']) {
+      _this['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
+    }
     
-    this['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
+    if (data['lastName']) {
+      _this['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
+    }
     
-    this['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
+    if (data['email']) {
+      _this['email'] = ApiClient.convertToType(data['email'], 'String');
+    }
     
-    this['email'] = ApiClient.convertToType(data['email'], 'String');
+    if (data['password']) {
+      _this['password'] = ApiClient.convertToType(data['password'], 'String');
+    }
     
-    this['password'] = ApiClient.convertToType(data['password'], 'String');
+    if (data['phone']) {
+      _this['phone'] = ApiClient.convertToType(data['phone'], 'String');
+    }
     
-    this['phone'] = ApiClient.convertToType(data['phone'], 'String');
+    if (data['userStatus']) {
+      _this['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
+    }
     
-    this['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
-    
-    return this;
+    return _this;
   }
 
+  
   
   /**
    * @return {Integer}
@@ -203,10 +177,13 @@
     this['userStatus'] = userStatus;
   }
   
+  
 
   User.prototype.toJson = function() {
     return JSON.stringify(this);
   }
+
+  
 
   if (module) {
     module.User = User;
