@@ -313,34 +313,6 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     return initialCaps(name) + "API";
   }
 
-
-
-  @Override
-  public String toVarName(String name) {
-    // sanitize name
-    name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-    if("_".equals(name)) {
-      name = "_u";
-    }
-
-    // if it's all uppper case, do nothing
-    if (name.matches("^[A-Z_]*$")) {
-      return name;
-    }
-
-    // camelize (lower first character) the variable name
-    // pet_id => petId
-    name = camelize(name, true);
-
-    // for reserved word or word starting with number, append _
-    if (reservedWords.contains(name) || name.matches("^\\d.*")) {
-      name = escapeReservedWord(name);
-    }
-
-    return name;
-  }
-
   @Override
   public String toOperationId(String operationId) {
     // throw exception if method name is empty
